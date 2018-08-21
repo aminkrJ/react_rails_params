@@ -1,0 +1,17 @@
+{
+  "name": "react_rails_params",
+  "version": "1.0.0",
+  "description": "js objects to RoR nested params",
+  "main": "index.js",
+  "directories": {
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^23.5.0"
+  },
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "author": "Amin Karaji",
+  "license": "MIT"
+}
