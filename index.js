@@ -1,12 +1,17 @@
 import _ from "underscore";
+import humps from "humps"
 
-export const railsify = (data, root = null) => {
+export const railsify = (data, root = null, options = {}) => {
+  const { decamelize } = options
+
   let newObject = {}
 
   _.each(data, (value, key) => {
+    if(decamelize) key = humps.decamelize(key)
+
     if(Array.isArray(value)){
       let items = _.map(value, (item) => {
-        return railsify(item)
+        return railsify(item, null, options)
       })
 
       let nested = { [`${key}_attributes`]: items }
@@ -15,7 +20,7 @@ export const railsify = (data, root = null) => {
     }
 
     if(typeof value === 'object' && value.constructor === Object){
-      let nested = railsify(value, `${key}_attributes`)
+      let nested = railsify(value, `${key}_attributes`, options)
       newObject = { ...newObject, ...nested }
       return true;
     }

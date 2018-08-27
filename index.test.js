@@ -14,6 +14,35 @@ it('with primitive data', () => {
   expect(railsify(article)).toMatchObject(expected)
 });
 
+it('decamelize', () => {
+  const article = {
+    id: 1,
+    userModel: {
+      id: 1,
+      name: "Tom",
+      roleModel: {
+        id: 1,
+        nameModel: "admin"
+      }
+    }
+  }
+
+  const expected = {
+    id: 1,
+    user_model_attributes: {
+      id: 1,
+      name: "Tom",
+      role_model_attributes: {
+        id: 1,
+        name_model: "admin"
+      }
+    }
+  }
+  expect(railsify(article, null, { decamelize: true })).toMatchObject(expected)
+});
+
+
+
 it('with primitive data and root', () => {
   const article = {
     id: 1,
