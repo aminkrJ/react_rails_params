@@ -19,7 +19,7 @@ export const railsify = (data, root = null, options = {}) => {
       return true;
     }
 
-    if(typeof value === 'object' && value.constructor === Object){
+    if(value && typeof value === 'object' && value.constructor === Object){
       let nested = railsify(value, `${key}_attributes`, options)
       newObject = { ...newObject, ...nested }
       return true;

@@ -1,4 +1,4 @@
-import { railsify } from './index'
+import { railsify } from './src/index'
 
 it('with primitive data', () => {
   const article = {
@@ -9,6 +9,20 @@ it('with primitive data', () => {
   const expected = {
     id: 1,
     title: "test"
+  }
+
+  expect(railsify(article)).toMatchObject(expected)
+});
+
+it('with null value', () => {
+  const article = {
+    id: 1,
+    title: null
+  }
+
+  const expected = {
+    id: 1,
+    title: null
   }
 
   expect(railsify(article)).toMatchObject(expected)
@@ -41,8 +55,6 @@ it('decamelize', () => {
   expect(railsify(article, null, { decamelize: true })).toMatchObject(expected)
 });
 
-
-
 it('with primitive data and root', () => {
   const article = {
     id: 1,
@@ -58,7 +70,6 @@ it('with primitive data and root', () => {
 
   expect(railsify(article, 'article')).toMatchObject(expected)
 });
-
 
 it('with object', () => {
 
@@ -90,18 +101,27 @@ it('with object', () => {
 });
 
 it('with array', () => {
-
   const article = {
     id: 1,
     user: {
       id: 1,
       name: "Tom"
     },
+    title: "test",
     comments: [{
       id: 1,
       user: {
         id: 1,
-        name: "Alex"
+        name: "Alex",
+        logos: [
+          { id: 1 }
+        ]
+      }
+    }, {
+      id: 2,
+      user: {
+        id: 2,
+        name: "Dolex"
       }
     }]
   }
@@ -112,12 +132,23 @@ it('with array', () => {
       id: 1,
       name: "Tom"
     },
+    title: "test",
     comments_attributes: [
       {
         id: 1,
         user_attributes: {
           id: 1,
-          name: "Alex"
+          name: "Alex",
+          logos_attributes: [{
+            id: 1
+          }]
+        }
+      },
+      {
+        id: 2,
+        user_attributes: {
+          id: 2,
+          name: "Dolex"
         }
       }
     ]
