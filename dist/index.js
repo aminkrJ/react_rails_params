@@ -37,7 +37,7 @@ var railsify = function railsify(data) {
       return true;
     }
 
-    if (_typeof(value) === 'object' && value.constructor === Object) {
+    if (value && _typeof(value) === 'object' && value.constructor === Object) {
       var _nested2 = railsify(value, "".concat(key, "_attributes"), options);
 
       newObject = _objectSpread({}, newObject, _nested2);
