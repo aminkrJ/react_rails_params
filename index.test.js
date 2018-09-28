@@ -17,11 +17,15 @@ describe('isArrayOfObjects', () => {
 it('id associations', () => {
   const article = {
     id: 1,
+    tags: ["ab"],
+    keyword: {id: 4, title: "Test"},
     user: { id: 5, name: "Amin" }
   }
 
   const expected = {
     id: 1,
+    tags: ["ab"],
+    keyword_attributes: {id: 4, title: "Test"},
     user_id: 5
   }
 
