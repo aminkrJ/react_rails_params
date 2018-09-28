@@ -20,7 +20,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var railsify = function railsify(data) {
   var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var decamelize = options.decamelize;
+  var defaultOptions = {
+    decamelize: false,
+    idAssociations: []
+  };
+  options = Object.assign(defaultOptions, options);
+  var _options = options,
+      decamelize = _options.decamelize,
+      idAssociations = _options.idAssociations;
   var newObject = {};
 
   _underscore.default.each(data, function (value, key) {
@@ -38,9 +45,16 @@ var railsify = function railsify(data) {
     }
 
     if (isObject(value)) {
-      var _nested2 = railsify(value, "".concat(key, "_attributes"), options);
+      if (idAssociations.includes(key)) {
+        var _nested2 = _defineProperty({}, "".concat(key, "_id"), value.id);
 
-      newObject = _objectSpread({}, newObject, _nested2);
+        newObject = _objectSpread({}, newObject, _nested2);
+      } else {
+        var _nested4 = railsify(value, "".concat(key, "_attributes"), options);
+
+        newObject = _objectSpread({}, newObject, _nested4);
+      }
+
       return true;
     }
 
