@@ -1,4 +1,32 @@
-import { railsify } from './src/index'
+import { railsify, isArrayOfObjects } from './src/index'
+
+describe('isArrayOfObjects', () => {
+  it('all are strings', () => {
+    const object = ["a", "b"]
+
+    expect(isArrayOfObjects(object)).toBeFalsy();
+  })
+
+  it('all are strings', () => {
+    const object = ["a", {id: 1, title: "test"}]
+
+    expect(isArrayOfObjects(object)).toBeFalsy();
+  })
+})
+
+it('array of premitive data', () => {
+  const article = {
+    id: 1,
+    tags: ["test1", "test2", "test3"]
+  }
+
+  const expected = {
+    id: 1,
+    tags: ["test1", "test2", "test3"]
+  }
+
+  expect(railsify(article)).toMatchObject(expected)
+})
 
 it('with primitive data', () => {
   const article = {

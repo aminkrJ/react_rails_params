@@ -9,19 +9,21 @@ export const railsify = (data, root = null, options = {}) => {
   _.each(data, (value, key) => {
     if(decamelize) key = humps.decamelize(key)
 
-    if(Array.isArray(value)){
+    if(isArrayOfObjects(value)){
       let items = _.map(value, (item) => {
         return railsify(item, null, options)
       })
 
       let nested = { [`${key}_attributes`]: items }
       newObject = { ...newObject, ...nested }
+
       return true;
     }
 
-    if(value && typeof value === 'object' && value.constructor === Object){
+    if(isObject(value)){
       let nested = railsify(value, `${key}_attributes`, options)
       newObject = { ...newObject, ...nested }
+
       return true;
     }
 
@@ -33,4 +35,20 @@ export const railsify = (data, root = null, options = {}) => {
   }else{
     return newObject
   }
+}
+
+export const isArrayOfObjects = (value) => {
+  if(Array.isArray(value)){
+    value = value.map((item) => {
+      return isObject(item)
+    });
+
+    return value.includes(false) ? false : true
+  } else {
+    return false
+  }
+}
+
+const isObject = (value) => {
+  return value && typeof value === 'object' && value.constructor === Object
 }
