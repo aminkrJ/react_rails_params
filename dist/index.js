@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.railsify = void 0;
+exports.isArrayOfObjects = exports.railsify = void 0;
 
 var _underscore = _interopRequireDefault(require("underscore"));
 
@@ -26,7 +26,7 @@ var railsify = function railsify(data) {
   _underscore.default.each(data, function (value, key) {
     if (decamelize) key = _humps.default.decamelize(key);
 
-    if (Array.isArray(value)) {
+    if (isArrayOfObjects(value)) {
       var items = _underscore.default.map(value, function (item) {
         return railsify(item, null, options);
       });
@@ -37,7 +37,7 @@ var railsify = function railsify(data) {
       return true;
     }
 
-    if (value && _typeof(value) === 'object' && value.constructor === Object) {
+    if (isObject(value)) {
       var _nested2 = railsify(value, "".concat(key, "_attributes"), options);
 
       newObject = _objectSpread({}, newObject, _nested2);
@@ -55,3 +55,20 @@ var railsify = function railsify(data) {
 };
 
 exports.railsify = railsify;
+
+var isArrayOfObjects = function isArrayOfObjects(value) {
+  if (Array.isArray(value)) {
+    value = value.map(function (item) {
+      return isObject(item);
+    });
+    return value.includes(false) ? false : true;
+  } else {
+    return false;
+  }
+};
+
+exports.isArrayOfObjects = isArrayOfObjects;
+
+var isObject = function isObject(value) {
+  return value && _typeof(value) === 'object' && value.constructor === Object;
+};

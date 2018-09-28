@@ -12,8 +12,8 @@
     "@babel/cli": "*",
     "@babel/core": "*",
     "@babel/preset-env": "*",
-    "babel-jest": "*",
     "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "*",
     "jest": "*",
     "regenerator-runtime": "*"
   },
