@@ -2,7 +2,13 @@ import _ from "underscore";
 import humps from "humps"
 
 export const railsify = (data, root = null, options = {}) => {
-  const { decamelize } = options
+  const defaultOptions = {
+    decamelize: false,
+    idAssociations: []
+  }
+  options = Object.assign(defaultOptions, options);
+
+  const { decamelize, idAssociations } = options;
 
   let newObject = {}
 
@@ -21,8 +27,13 @@ export const railsify = (data, root = null, options = {}) => {
     }
 
     if(isObject(value)){
-      let nested = railsify(value, `${key}_attributes`, options)
-      newObject = { ...newObject, ...nested }
+      if(idAssociations.includes(key)){
+        let nested = { [`${key}_id`]: value.id }
+        newObject = { ...newObject, ...nested }
+      } else {
+        let nested = railsify(value, `${key}_attributes`, options)
+        newObject = { ...newObject, ...nested }
+      }
 
       return true;
     }

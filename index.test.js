@@ -14,6 +14,20 @@ describe('isArrayOfObjects', () => {
   })
 })
 
+it('id associations', () => {
+  const article = {
+    id: 1,
+    user: { id: 5, name: "Amin" }
+  }
+
+  const expected = {
+    id: 1,
+    user_id: 5
+  }
+
+  expect(railsify(article, null, {idAssociations: ['user']})).toMatchObject(expected)
+})
+
 it('array of premitive data', () => {
   const article = {
     id: 1,
